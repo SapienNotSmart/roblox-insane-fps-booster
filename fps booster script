@@ -1,0 +1,54 @@
+-- this script was not made with chatgpt real real 🤫🤫
+
+--// FPS Booster Script - Made by someone who just wants more FPS :) \\--
+
+print("Starting FPS optimization...") 
+
+local function optimizeFPS()
+    -- Removing unnecessary parts from the map
+    for _, obj in pairs(workspace:GetChildren()) do
+        if obj:IsA("MeshPart") or obj:IsA("Part") or obj:IsA("UnionOperation") then
+            obj:Destroy()
+        end
+    end
+
+    -- Adjusting lighting to remove shadows and improve performance
+    local lighting = game:GetService("Lighting")
+    lighting.GlobalShadows = false
+    lighting.FogEnd = 9e9
+    lighting.Brightness = 0
+
+    -- Disabling 3D rendering to save processing power
+    game:GetService("RunService"):Set3dRenderingEnabled(false)
+
+    -- Optimizing terrain (bye waves and water reflections)
+    local terrain = workspace:FindFirstChildOfClass("Terrain")
+    if terrain then
+        terrain.WaterWaveSize = 0
+        terrain.WaterWaveSpeed = 0
+        terrain.WaterReflectance = 0
+        terrain.WaterTransparency = 1
+    end
+
+    -- Removing textures and decals that just eat FPS
+    for _, obj in pairs(workspace:GetDescendants()) do
+        if obj:IsA("Decal") or obj:IsA("Texture") then
+            obj:Destroy()
+        end
+    end
+
+    -- Removing accessories and clothes from characters (fewer things to load)
+    for _, player in pairs(game:GetService("Players"):GetPlayers()) do
+        if player.Character then
+            for _, item in pairs(player.Character:GetChildren()) do
+                if item:IsA("Accessory") or item:IsA("Clothing") then
+                    item:Destroy()
+                end
+            end
+        end
+    end
+
+    print("FPS optimized! Now just enjoy the boost. 🚀")
+end
+
+optimizeFPS()
